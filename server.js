@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 8000;
 
+// Routes
+require("./app/routes")(app, {});
+
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
