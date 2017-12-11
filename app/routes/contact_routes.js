@@ -28,14 +28,37 @@ module.exports = function(app, db) {
     db
       .get("contacts")
       .push(contact)
-      .write();
+      .write()
+      .then(() => {
+        const createdContact = db
+          .get("contacts")
+          .find({ id: contactId })
+          .value();
 
-    const createdContact = db
+        res.send({ message: "Contact created", contact: createdContact });
+      });
+  });
+
+  app.put("/contacts/:id", (req, res) => {
+    if (!req.body) {
+      res.send({ error: "No contact provided!" });
+      return;
+    }
+
+    const contactId = req.params.id;
+    db
       .get("contacts")
       .find({ id: contactId })
-      .value();
+      .assign(req.body)
+      .write()
+      .then(() => {
+        const createdContact = db
+          .get("contacts")
+          .find({ id: contactId })
+          .value();
 
-    res.send(createdContact);
+        res.send({ message: "Contact updated", contact: createdContact });
+      });
   });
 
   app.delete("/contacts/:id", (req, res) => {
@@ -43,9 +66,8 @@ module.exports = function(app, db) {
     db
       .get("contacts")
       .remove({ id: contactId })
-      .write();
-
-    res.send("Contact removed.");
+      .write()
+      .then(() => res.send("Contact removed."));
   });
 };
 
