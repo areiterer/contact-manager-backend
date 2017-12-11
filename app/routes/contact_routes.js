@@ -1,8 +1,72 @@
 module.exports = function(app, db) {
-  app.post("/contacts", (req, res) => {
-    // TODO: Create Contacts here
+  app.get("/contacts", (req, res) => {
+    const contacts = db.get("contacts").value();
+    res.send(contacts);
+  });
 
-    console.log(req.body);
-    res.send("POST contacts!");
+  app.get("/contacts/:id", (req, res) => {
+    const contactId = req.params.id;
+    const contacts = db.get("contacts").find({ id: contactId });
+    res.send(contacts);
+  });
+
+  app.post("/contacts", (req, res) => {
+    if (!req.body) {
+      res.send({ error: "No contact provided!" });
+      return;
+    }
+
+    // TODO: Create Contacts here
+    const contactId = guid();
+    const contact = {
+      id: contactId,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email
+    };
+
+    db
+      .get("contacts")
+      .push(contact)
+      .write();
+
+    const createdContact = db
+      .get("contacts")
+      .find({ id: contactId })
+      .value();
+
+    res.send(createdContact);
+  });
+
+  app.delete("/contacts/:id", (req, res) => {
+    const contactId = req.params.id;
+    db
+      .get("contacts")
+      .remove({ id: contactId })
+      .write();
+
+    res.send("Contact removed.");
   });
 };
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return (
+    s4() +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    s4() +
+    s4()
+  );
+}
