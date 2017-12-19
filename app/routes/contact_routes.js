@@ -1,13 +1,13 @@
 module.exports = function(app, db) {
   app.get("/contacts", (req, res) => {
     const contacts = db.get("contacts").value();
-    res.send(contacts);
+    res.json(contacts);
   });
 
   app.get("/contacts/:id", (req, res) => {
     const contactId = req.params.id;
     const contacts = db.get("contacts").find({ id: contactId });
-    res.send(contacts);
+    res.json(contacts);
   });
 
   app.post("/contacts", (req, res) => {
@@ -35,7 +35,7 @@ module.exports = function(app, db) {
           .find({ id: contactId })
           .value();
 
-        res.send({ message: "Contact created", contact: createdContact });
+        res.sendStatus(200);
       });
   });
 
@@ -44,7 +44,6 @@ module.exports = function(app, db) {
       res.send({ error: "No contact provided!" });
       return;
     }
-
     const contactId = req.params.id;
     db
       .get("contacts")
@@ -57,7 +56,7 @@ module.exports = function(app, db) {
           .find({ id: contactId })
           .value();
 
-        res.send({ message: "Contact updated", contact: createdContact });
+        res.json(createdContact);
       });
   });
 
