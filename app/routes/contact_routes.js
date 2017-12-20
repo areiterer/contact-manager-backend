@@ -15,8 +15,6 @@ module.exports = function(app, db) {
       res.send({ error: "No contact provided!" });
       return;
     }
-
-    // TODO: Create Contacts here
     const contactId = guid();
     const contact = {
       id: contactId,
