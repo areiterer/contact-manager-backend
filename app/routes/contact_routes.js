@@ -22,7 +22,12 @@ module.exports = function(app, db) {
       id: contactId,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email
+      email: req.body.email,
+      phone: req.body.phone,
+      street: req.body.street,
+      house: req.body.street,
+      zip: req.body.zip,
+      city: req.body.zip
     };
 
     db
@@ -35,7 +40,7 @@ module.exports = function(app, db) {
           .find({ id: contactId })
           .value();
 
-        res.sendStatus(200);
+        res.json(createdContact);
       });
   });
 
