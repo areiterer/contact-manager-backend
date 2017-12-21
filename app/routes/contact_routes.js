@@ -23,9 +23,9 @@ module.exports = function(app, db) {
       email: req.body.email,
       phone: req.body.phone,
       street: req.body.street,
-      house: req.body.street,
+      house: req.body.house,
       zip: req.body.zip,
-      city: req.body.zip
+      city: req.body.city
     };
 
     db
