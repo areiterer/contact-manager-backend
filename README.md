@@ -4,7 +4,9 @@ It uses [ExpressJS](https://expressjs.com/) and [lowdb](https://github.com/typic
 
 ## How to test
 
-* git clone https://github.com/areiterer/contact-manager-backend
-* cd contact-manager-backend
-* npm install
-* npm start
+```
+git clone https://github.com/areiterer/contact-manager-backend
+cd contact-manager-backend
+npm install
+npm start
+```
